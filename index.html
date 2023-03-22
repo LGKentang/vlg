@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Valorant Team Generator</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		h1 {
+			text-align: center;
+			margin-top: 30px;
+		}
+		form {
+			margin: 30px auto;
+			width: 300px;
+			border: 1px solid #ccc;
+			padding: 20px;
+			border-radius: 5px;
+		}
+		input[type="text"] {
+			display: block;
+			margin-bottom: 10px;
+			padding: 10px;
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			box-sizing: border-box;
+		}
+		button {
+			display: block;
+			margin-top: 10px;
+			padding: 10px;
+			width: 100%;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			box-sizing: border-box;
+		}
+		.teams {
+			margin: 30px auto;
+			width: 600px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+		.team {
+			width: 280px;
+			background-color: #f9f9f9;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			padding: 10px;
+			margin-bottom: 20px;
+			box-sizing: border-box;
+		}
+		.team h2 {
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		.team ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.team li {
+			padding: 5px;
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+		.map {
+			margin: 30px auto;
+			width: 600px;
+			background-color: #f9f9f9;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+		.map h2 {
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Valorant Team Generator</h1>
+	<form id="generator-form">
+		<label for="player-names">Player Names:</label>
+		<input type="text" id="player-names" name="player-names" placeholder="Enter player names separated by commas" required>
+		<label for="map-names">Map Names:</label>
+		<input type="text" id="map-names" name="map-names" placeholder="Enter map names separated by commas" required>
+		<button type="submit">Generate Teams and Map</button>
+	</form>
+	<div class="teams">
+		<div class="team" id="team1">
+			<h2>Team 1:</h2>
+			
+			<ul>
+			</ul>
+		</div>
+		<div class="team" id="team2">
+			<h2>Team 2:</h2>
+			<ul>
+			</ul>
+		</div>
+	</div>
+	<div class="map" id="map">
+		<h2>Map:</h2>
+		<p></p>
+	</div>
+	<script>
+		const form = document.querySelector("#generator-form");
+		const team1List = document.querySelector("#team1 ul");
+		const team2List = document.querySelector("#team2 ul");
+		const mapDiv = document.querySelector("#map p");
+		
+		form.addEventListener("submit", function(event) {
+			event.preventDefault();
+			
+			const playerNames = document.querySelector("#player-names").value.split(",");
+			const mapNames = document.querySelector("#map-names").value.split(",");
+			const numPlayers = playerNames.length;
+			const numMaps = mapNames.length;
+			
+			// shuffle the players
+			for (let i = numPlayers - 1; i > 0; i--) {
+			    const j = Math.floor(Math.random() * (i + 1));
+			    [playerNames[i], playerNames[j]] = [playerNames[j], playerNames[i]];
+			}
+			
+			// shuffle the maps
+			for (let i = numMaps - 1; i > 0; i--) {
+			    const j = Math.floor(Math.random() * (i + 1));
+			    [mapNames[i], mapNames[j]] = [mapNames[j], mapNames[i]];
+			}
+			
+			// split the players into two teams
+			const teamSize = Math.floor(numPlayers / 2);
+			const team1 = playerNames.slice(0, teamSize);
+			const team2 = playerNames.slice(teamSize);
+			
+			// clear the previous team and map
+			team1List.innerHTML = "";
+			team2List.innerHTML = "";
+			mapDiv.innerHTML = "";
+			
+			// display the teams
+			team1.forEach(player => {
+				const li = document.createElement("li");
+				li.textContent = player.trim();
+				team1List.appendChild(li);
+			});
+			
+			team2.forEach(player => {
+				const li = document.createElement("li");
+				li.textContent = player.trim();
+				team2List.appendChild(li);
+			});
+			
+			// display the map
+			const map = mapNames[Math.floor(Math.random() * numMaps)];
+			mapDiv.textContent = map.trim();
+		});
+	</script>
+</body>
+</html>
