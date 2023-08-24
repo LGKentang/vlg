@@ -126,29 +126,24 @@
 			const numPlayers = playerNames.length;
 			const numMaps = mapNames.length;
 			
-			// shuffle the players
 			for (let i = numPlayers - 1; i > 0; i--) {
 			    const j = Math.floor(Math.random() * (i + 1));
 			    [playerNames[i], playerNames[j]] = [playerNames[j], playerNames[i]];
 			}
 			
-			// shuffle the maps
 			for (let i = numMaps - 1; i > 0; i--) {
 			    const j = Math.floor(Math.random() * (i + 1));
 			    [mapNames[i], mapNames[j]] = [mapNames[j], mapNames[i]];
 			}
 			
-			// split the players into two teams
 			const teamSize = Math.floor(numPlayers / 2);
 			const team1 = playerNames.slice(0, teamSize);
 			const team2 = playerNames.slice(teamSize);
 			
-			// clear the previous team and map
 			team1List.innerHTML = "";
 			team2List.innerHTML = "";
 			mapDiv.innerHTML = "";
 			
-			// display the teams
 			team1.forEach(player => {
 				const li = document.createElement("li");
 				li.textContent = player.trim();
@@ -161,7 +156,6 @@
 				team2List.appendChild(li);
 			});
 			
-			// display the map
 			const map = mapNames[Math.floor(Math.random() * numMaps)];
 			mapDiv.textContent = map.trim();
 		});
